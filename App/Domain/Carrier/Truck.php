@@ -37,6 +37,7 @@ class Truck extends AbstractCarrier
         foreach($packs as $pack)
         {
             $pack->addObserver($warehouseman);
+            $pack->updateState("unloaded", $this);
         }
 
         $this->packs = [];

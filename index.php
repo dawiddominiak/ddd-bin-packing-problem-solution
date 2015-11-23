@@ -10,7 +10,7 @@ use DawidDominiak\Knapsack\App\Services\GreedyPackingStrategy;
 use DawidDominiak\Knapsack\App\Utils\Workday;
 use Rhumsaa\Uuid\Uuid;
 
-$pack = [
+$packs = [
     new Pack(
         new PackId(Uuid::uuid4()),
         30
@@ -53,6 +53,7 @@ $pack = [
     )
 ];
 $truck = new Truck('Grzegorz Services LTD');
+$truck->load($packs);
 $warehouseman = new Warehouseman('Mr. Janusz');
 $warehouseman->setPackingStrategy(
     new GreedyPackingStrategy()
