@@ -1,0 +1,16 @@
+{
+  "name": "dawid-dominiak/multiple-knapsack-problem-example",
+  "description": "Example solution of multiple knapsack problem.",
+  "minimum-stability": "stable",
+  "license": "unlicence (http://unlicense.org/)",
+  "authors": [
+    {
+      "name": "Dawid Dominiak",
+      "email": "poczta@dawiddominiak.pl"
+    }
+  ],
+  "require": {
+    "symfony/class-loader": "v2.7.7",
+    "rhumsaa/uuid": "2.8.2"
+  }
+}
