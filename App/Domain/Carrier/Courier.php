@@ -5,7 +5,7 @@ namespace DawidDominiak\Knapsack\App\Domain\Carrier;
 
 use DawidDominiak\Knapsack\App\Domain\Pack\Pack;
 
-class Courrier extends AbstractCarrier
+class Courier extends AbstractCarrier
 {
     /**
      * @var Pack[]
@@ -34,8 +34,7 @@ class Courrier extends AbstractCarrier
     {
         $packWeight = $pack->getWeight();
 
-        if($this->maxLoad - $this->getLoadWeight() > $packWeight)
-        {
+        if ($this->maxLoad - $this->getLoadWeight() < $packWeight) {
             return false;
         }
 
@@ -52,8 +51,7 @@ class Courrier extends AbstractCarrier
     {
         $weight = 0;
 
-        foreach($this->packs as $pack)
-        {
+        foreach ($this->packs as $pack) {
             $weight += $pack->getWeight();
         }
 

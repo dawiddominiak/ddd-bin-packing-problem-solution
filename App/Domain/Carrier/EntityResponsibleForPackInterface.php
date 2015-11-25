@@ -5,7 +5,7 @@ namespace DawidDominiak\Knapsack\App\Domain\Carrier;
 
 use DawidDominiak\Knapsack\App\Shared\EntityInterface;
 
-interface ResponsibleEntityInterface extends EntityInterface
+interface EntityResponsibleForPackInterface extends EntityInterface
 {
     /**
      * @return string

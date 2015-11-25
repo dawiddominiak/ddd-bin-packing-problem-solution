@@ -14,7 +14,7 @@ class Workday
      */
     public static function begin(Truck $truck, Warehouseman $warehouseman)
     {
-        $packs = $truck->doUnload($warehouseman);
-        $warehouseman->pack($packs, Courrier::getGenerator());
+        $packs = $warehouseman->unload($truck);
+        $warehouseman->pack($packs, Courier::getGenerator());
     }
 }

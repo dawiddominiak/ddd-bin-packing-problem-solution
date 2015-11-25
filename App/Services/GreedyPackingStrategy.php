@@ -3,6 +3,7 @@
 namespace DawidDominiak\Knapsack\App\Services;
 
 
+use DawidDominiak\Knapsack\App\Domain\Carrier\Courier;
 use DawidDominiak\Knapsack\App\Domain\Pack\Pack;
 
 class GreedyPackingStrategy implements PackingStrategyInterface
@@ -10,22 +11,49 @@ class GreedyPackingStrategy implements PackingStrategyInterface
 
     /**
      * @param Pack[] $packs
-     * @param \Generator $courrierGenerator
-     * @return mixed
+     * @param \Generator $courierGenerator
+     * @return void
      */
-    public function pack($packs, \Generator $courrierGenerator)
+    public function pack($packs, \Generator $courierGenerator)
     {
         $this->sortPacksByWeightDesc($packs);
+        $this->assertTypeofCourier($courierGenerator->current());
 
-        foreach($packs as $pack)
-        {
-            foreach($courrierGenerator as $courrier)
-            {
-                if($courrier->tryLoadPack($pack))
-                {
+        $neededCourriers = [
+            $courierGenerator->current()
+        ];
+
+        foreach ($packs as $pack) {
+
+            $loaded = false;
+            $this->sortCourriersByLoadDesc($neededCourriers);
+
+            foreach ($neededCourriers as $courier) {
+
+                if ($courier->tryLoadPack($pack)) {
+
+                    $loaded = true;
+
                     break;
                 }
             }
+
+            if (!$loaded) {
+                $courierGenerator->next();
+                $newCourier = $courierGenerator->current();
+                $this->assertTypeofCourier($newCourier);
+                array_push($neededCourriers, $newCourier);
+                $newCourier->tryLoadPack($pack);
+            }
+        }
+    }
+
+    private function assertTypeofCourier($object)
+    {
+
+        if (!$object instanceof Courier) {
+
+            throw new \UnexpectedValueException('Object is not an instance of Courier.');
         }
     }
 
@@ -34,19 +62,34 @@ class GreedyPackingStrategy implements PackingStrategyInterface
      */
     private function sortPacksByWeightDesc(&$packs)
     {
-        usort(
-            $packs,
-            /**
-             * @param Pack $a
-             * @param Pack $b
-             * @return int
-             */
-            function($a, $b) {
-                $weightA = $a->getWeight();
-                $weightB = $b->getWeight();
+        $this->sortByWeightDesc($packs, function (Pack $pack) {
+            return $pack->getWeight();
+        });
+    }
 
-                if($weightA === $weightB)
-                {
+    /**
+     * @param Courier[] $courriers
+     */
+    private function sortCourriersByLoadDesc(&$courriers)
+    {
+        $this->sortByWeightDesc($courriers, function (Courier $courier) {
+            return $courier->getLoadWeight();
+        });
+    }
+
+    /**
+     * @param $array
+     * @param \Closure $weightCallback
+     */
+    private function sortByWeightDesc(&$array, \Closure $weightCallback)
+    {
+        usort(
+            $array,
+            function ($a, $b) use ($weightCallback) {
+                $weightA = $weightCallback($a);
+                $weightB = $weightCallback($b);
+
+                if ($weightA === $weightB) {
                     return 0;
                 }
 

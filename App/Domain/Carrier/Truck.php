@@ -4,7 +4,6 @@ namespace DawidDominiak\Knapsack\App\Domain\Carrier;
 
 
 use DawidDominiak\Knapsack\App\Domain\Pack\Pack;
-use DawidDominiak\Knapsack\App\Domain\Warehouseman\Warehouseman;
 
 class Truck extends AbstractCarrier
 {
@@ -27,19 +26,11 @@ class Truck extends AbstractCarrier
     }
 
     /**
-     * @param Warehouseman $warehouseman
      * @return \DawidDominiak\Knapsack\App\Domain\Pack\Pack[]
      */
-    public function doUnload(Warehouseman $warehouseman)
+    public function doUnload()
     {
         $packs = $this->packs;
-
-        foreach($packs as $pack)
-        {
-            $pack->addObserver($warehouseman);
-            $pack->updateState("unloaded", $this);
-        }
-
         $this->packs = [];
 
         return $packs;

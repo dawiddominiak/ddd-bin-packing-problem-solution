@@ -5,7 +5,7 @@ namespace DawidDominiak\Knapsack\App\Domain\Carrier;
 
 use DawidDominiak\Knapsack\App\Shared\EntityInterface;
 
-abstract class AbstractCarrier implements ResponsibleEntityInterface
+abstract class AbstractCarrier implements EntityResponsibleForPackInterface
 {
     /**
      * @var string
@@ -35,8 +35,7 @@ abstract class AbstractCarrier implements ResponsibleEntityInterface
      */
     public function sameIdentityAs(EntityInterface $other)
     {
-        if(!$other instanceof static)
-        {
+        if (!$other instanceof static) {
             return false;
         }
 

@@ -10,7 +10,7 @@ interface PackingStrategyInterface
     /**
      * @param Pack[] $packs
      * @param \Generator $courrierGenerator
-     * @return mixed
+     * @return void
      */
     public function pack($packs, \Generator $courrierGenerator);
 }

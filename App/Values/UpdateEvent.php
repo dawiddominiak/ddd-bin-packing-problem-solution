@@ -3,7 +3,7 @@
 namespace DawidDominiak\Knapsack\App\Values;
 
 
-use DawidDominiak\Knapsack\App\Domain\Carrier\ResponsibleEntityInterface;
+use DawidDominiak\Knapsack\App\Domain\Carrier\EntityResponsibleForPackInterface;
 use DawidDominiak\Knapsack\App\Domain\Pack\Pack;
 use DawidDominiak\Knapsack\App\Shared\ValueObjectInterface;
 
@@ -17,7 +17,7 @@ class UpdateEvent implements ValueObjectInterface
     private $action;
 
     /**
-     * @var ResponsibleEntityInterface
+     * @var EntityResponsibleForPackInterface
      */
     private $entity;
 
@@ -26,7 +26,7 @@ class UpdateEvent implements ValueObjectInterface
      */
     private $pack;
 
-    public function __construct($action, ResponsibleEntityInterface $entity, Pack $pack)
+    public function __construct($action, EntityResponsibleForPackInterface $entity, Pack $pack)
     {
         $this->action = $action;
         $this->entity = $entity;
@@ -39,13 +39,12 @@ class UpdateEvent implements ValueObjectInterface
      */
     public function sameValueAs(ValueObjectInterface $other)
     {
-        if (!$other instanceof UpdateEvent)
-        {
+        if (!$other instanceof UpdateEvent) {
             return false;
         }
 
         return $this->action === $other->action &&
-            $this->entity->sameIdentityAs($other->entity);
+        $this->entity->sameIdentityAs($other->entity);
     }
 
     /**
@@ -57,7 +56,7 @@ class UpdateEvent implements ValueObjectInterface
     }
 
     /**
-     * @return ResponsibleEntityInterface
+     * @return EntityResponsibleForPackInterface
      */
     public function getEntity()
     {

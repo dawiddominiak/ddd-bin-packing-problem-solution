@@ -60,3 +60,4 @@ $warehouseman->setPackingStrategy(
 );
 
 Workday::begin($truck, $warehouseman);
+$events = $warehouseman->getObservedEvents();

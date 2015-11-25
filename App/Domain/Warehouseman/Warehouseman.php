@@ -3,6 +3,7 @@
 namespace DawidDominiak\Knapsack\App\Domain\Warehouseman;
 
 
+use DawidDominiak\Knapsack\App\Domain\Carrier\Truck;
 use DawidDominiak\Knapsack\App\Domain\Pack\Pack;
 use DawidDominiak\Knapsack\App\Services\PackingStrategyInterface;
 use DawidDominiak\Knapsack\App\Shared\EntityInterface;
@@ -58,6 +59,19 @@ class Warehouseman implements ObserverInterface
     public function pack($packs, \Generator $courrierGenerator)
     {
         $this->packingStrategy->pack($packs, $courrierGenerator);
+    }
+
+    public function unload(Truck $truck)
+    {
+        $packs = $truck->doUnload();
+
+        foreach($packs as $pack)
+        {
+            $pack->addObserver($this);
+            $pack->updateState('unloaded', $truck);
+        }
+
+        return $packs;
     }
 
     /**
